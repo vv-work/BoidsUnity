@@ -1,25 +1,26 @@
-package app;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.awt.event.*;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using UnityEngine;
 
-public class BoidRunner extends JPanel implements KeyListener, MouseListener, MouseMotionListener  {
-    private static final long serialVersionUID = -8716187417647724411L;
+public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener, MouseMotionListener  {
+
+//    private static readonly long serialVersionUID = -8716187417647724411L;
     
-    public static final int BOIDCOUNT = 1200; //*Adjust this value to match your computer's optimal processing
+    public static readonly int BOIDCOUNT = 1200; //*Adjust this value to match your computer's optimal processing
     
-    public static final int WIDTH = 1920;
-    public static final int HEIGHT = 1080;
-    static ArrayList<Boid> flock = new ArrayList<Boid>();
+    public static readonly int WIDTH = 1920;
+    public static readonly int HEIGHT = 1080;
+
+    static List<Boid> flock = new List<Boid>();
     static int totalInfected = 1, deathCount = 0, healthyCount = 0, criticalCount = 0, 
             aliveCount, recoveryCount = 0, visiblyDead = 0, diagnosedCount = 0, paramedicCount = 0, paranoidCount = 0;
 
-    static JLabel infectedDisplay, deathDisplay, healthyDisplay, criticalDisplay, aliveDisplay, recoveredDisplay;
+    static Sprite infectedDisplay, deathDisplay, healthyDisplay, criticalDisplay, aliveDisplay, recoveredDisplay;
     private Sound music;
     
-    public boolean addedNewBoid = false;
+    public bool addedNewBoid = false;
     int mouseXPosition = (int)(WIDTH/2), mouseYPosition = (int)(HEIGHT/2);
 
     public BoidRunner() {
@@ -49,7 +50,7 @@ public class BoidRunner extends JPanel implements KeyListener, MouseListener, Mo
         }
     }
 
-    boolean intensityPlayed = false, milestonePlayed = false;
+    bool intensityPlayed = false, milestonePlayed = false;
 
     public void run() {
         while(true) {
@@ -195,7 +196,7 @@ public class BoidRunner extends JPanel implements KeyListener, MouseListener, Mo
         deathDisplay.setLocation((int)WIDTH/2+200, 300);
     }
 
-    static void toggleCounts(boolean setting) {
+    static void toggleCounts(bool setting) {
         healthyDisplay.setVisible(setting);
         infectedDisplay.setVisible(setting);
         recoveredDisplay.setVisible(setting);
@@ -352,7 +353,7 @@ public class BoidRunner extends JPanel implements KeyListener, MouseListener, Mo
         }
 
     }
-    boolean clearGrid = false;
+    bool clearGrid = false;
 
 
     public void keyTyped(KeyEvent event) {}

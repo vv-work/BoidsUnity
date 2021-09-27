@@ -1,9 +1,8 @@
-package app;
- 
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.awt.geom.*;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 
 public class Boid {
     Vector position;
@@ -13,31 +12,37 @@ public class Boid {
     static int fieldOfView = 120;
 
     static int size = 3;
-    static Path2D shape = new Path2D.Double();
+    private static List<Vector2> shape;
+
+    //todo: Make shape of triangle
+    /*
     static {
         shape.moveTo(0,-size*2);
         shape.lineTo(-size, size*2);
         shape.lineTo(size,size*2);
         shape.closePath();
     }
+    */
     
-    static boolean hasInfected = false;
-    boolean hasDisease = false;
+    static bool hasInfected = false;
+    bool hasDisease = false;
     Color healthStatus = HEALTHY;
-    double immunity = (Math.random()*10+5);
-    double immunityCap = immunity, initialImmunity = immunity;
-    double lifeSpan = (Math.random()*300+500)*2;
+    double immunity = ((UnityEngine.Random.Range(0,1)*10+5));
+    private double immunityCap ;//= immunity;
+    static double lifeSpan = (UnityEngine.Random.Range(0,1)*300+500)*2;
     double initialLifeSpan = lifeSpan;
-    boolean dead = false, diagnosed = false;
+    bool dead = false, diagnosed = false;
     double deathAngle = 0;
     static int mortalityRate = 14;
     static Color RECOVERED = new Color(101,194,255), DEAD = new Color(154, 74, 178), 
-                HEALTHY = Color.WHITE, INFECTED = Color.RED,  PARANOID = new Color(174,243,177);
-    Color PARAMEDIC = Color.BLUE, DIAGNOSED = new Color(134, 0 , 0);
+                HEALTHY = Color.white, INFECTED = Color.red,  PARANOID = new Color(174,243,177);
+    Color PARAMEDIC = Color.blue, DIAGNOSED = new Color(134, 0 , 0);
     double immunityLife;
-    boolean isImmune = false, isParamedic = false;
-    static Boid patient = null; static boolean lockedOn = false;
-    double healTime = this.initialImmunity;
+    bool isImmune = false, isParamedic = false;
+    static Boid patient = null; static bool lockedOn = false;
+
+    private double healTime;//= this.initialImmunity;
+
     int sirens = 0, sirenCount = 0;
     static int travelTime = 0;
     static int patientBlink = 0, patientBlinkCount = 0;
@@ -50,36 +55,36 @@ public class Boid {
             hasDisease = true;
             lifeSpan = 2000;
         }
-        this.position = new Vector((double)(Math.random()*BoidRunner.WIDTH),(double)(Math.random()*BoidRunner.HEIGHT));
-        double angle = Math.random()*360;
-        double radius = Math.random()*2+2; //2-4
+        this.position = new Vector((double)((UnityEngine.Random.Range(0,1)*BoidRunner.WIDTH),(double)((UnityEngine.Random.Range(0,1)*BoidRunner.HEIGHT));
+        double angle = (UnityEngine.Random.Range(0,1)*360;
+        double radius = (UnityEngine.Random.Range(0,1)*2+2; //2-4
         this.velocity = new Vector((radius * Math.cos(angle)), (radius * Math.sin(angle)));
         this.acceleration = new Vector(0,0);
-        if((int)(Math.random()*500)==0 && !hasDisease) {
+        if((int)((UnityEngine.Random.Range(0,1)*500)==0 && !hasDisease) {
             this.isParamedic = true;
             this.healthStatus = PARAMEDIC;
             immunity = 2000;
         }
     }
     
-    public Boid(int mouseXPosition, int mouseYPosition, boolean addedInfected) {
+    public Boid(int mouseXPosition, int mouseYPosition, bool addedInfected) {
         if(addedInfected) {
             healthStatus = INFECTED;
             hasInfected = true;
             hasDisease = true;
         }
         this.position = new Vector(mouseXPosition, mouseYPosition);
-        double angle = Math.random()*360;
-        double radius = Math.random()*2+2;
+        double angle = (UnityEngine.Random.Range(0,1)*360;
+        double radius = (UnityEngine.Random.Range(0,1)*2+2;
         this.velocity = new Vector((radius * Math.cos(angle)), (radius * Math.sin(angle)));
         this.acceleration = new Vector(0,0);
         if(BoidRunner.totalInfected == 1)
             this.lifeSpan = 12000;
     }
-    public Boid(boolean addedParamedic) {
+    public Boid(bool addedParamedic) {
         this.position = new Vector((int)(BoidRunner.WIDTH), (int)(BoidRunner.HEIGHT));
-        double angle = Math.random()*360;
-        double radius = Math.random()*2+2;
+        double angle = (UnityEngine.Random.Range(0,1)*360;
+        double radius = (UnityEngine.Random.Range(0,1)*2+2;
         this.velocity = new Vector((radius * Math.cos(angle)), (radius * Math.sin(angle)));
         this.acceleration = new Vector(0,0);
         if(addedParamedic) {
@@ -97,7 +102,7 @@ public class Boid {
         if(this.hasDisease && !this.dead && !this.isImmune) {
             lifeSpan--;
             if(lifeSpan <= 0) {
-                if((int)(Math.random()*100) < mortalityRate) {
+                if((int)((UnityEngine.Random.Range(0,1)*100) < mortalityRate) {
                     this.dead = true; //Death
                     BoidRunner.updateDead();
                     this.healthStatus = DEAD;
@@ -110,9 +115,9 @@ public class Boid {
                     }
                     new Sound("recovery.wav");
                     this.healthStatus = RECOVERED;
-                    this.immunity = this.immunityCap * (Math.random()*50+100);
+                    this.immunity = this.immunityCap * ((UnityEngine.Random.Range(0,1)*50+100);
                     this.immunityCap = this.immunity;
-                    this.immunityLife = initialLifeSpan*(6*(Math.random()*0.8+0.5));
+                    this.immunityLife = initialLifeSpan*(6*((UnityEngine.Random.Range(0,1)*0.8+0.5));
                     if(this.diagnosed) {
                         this.diagnosed = false;
                         if(this == patient) {
@@ -128,20 +133,20 @@ public class Boid {
             if(this.immunityLife < 0) {
                 this.isImmune = false;
                 this.healthStatus = HEALTHY;
-                this.immunity = this.initialImmunity*(Math.random()*0.8+0.4);
+                this.immunity = this.initialImmunity*((UnityEngine.Random.Range(0,1)*0.8+0.4);
                 this.immunityCap = this.immunity;
-                this.immunityLife = initialLifeSpan*(6*(Math.random()*0.8+0.5));
+                this.immunityLife = initialLifeSpan*(6*((UnityEngine.Random.Range(0,1)*0.8+0.5));
                 this.lifeSpan = this.initialLifeSpan;
                 new Sound("immunitylost.wav");
             }
         } //Alignment
         if(!this.isParamedic || (this.isParamedic && !lockedOn)) 
         for(int i = 0; i < flock.size(); i++) {
-            if(this.isParamedic && flock.get(i).diagnosed) { //Lock on
-                patient = flock.get(i);
+            if(this.isParamedic && flock[i].diagnosed) { //Lock on
+                patient = flock[i];
                 lockedOn = true;
                 if(siren==null)
-                    switch((int)(Math.random()*3)){
+                    switch((int)((UnityEngine.Random.Range(0,1)*3)){
                         case 0:
                             siren = new Sound("ambulance.wav");
                             break;
@@ -154,39 +159,39 @@ public class Boid {
                     }
                 break;
             }
-            double dist = distance(this.position.xvalue, this.position.yvalue, flock.get(i).position.xvalue, flock.get(i).position.yvalue);
-            if(flock.get(i) != this && dist < perceptionRadius) {
-                if(!(this.diagnosed && flock.get(i).isParamedic)) {
-                    steering.add(flock.get(i).velocity);
+            double dist = distance(this.position.xvalue, this.position.yvalue, flock[i].position.xvalue, flock[i].position.yvalue);
+            if(flock[i] != this && dist < perceptionRadius) {
+                if(!(this.diagnosed && flock[i].isParamedic)) {
+                    steering.add(flock[i].velocity);
                     total++;
                 }
                 //!Viral transmission
-                if(this.hasDisease && !flock.get(i).hasDisease && (!this.isImmune || flock.get(i).dead)) {
-                    if(flock.get(i).immunity <= 0) {
-                        if(flock.get(i).healthStatus == PARANOID)
+                if(this.hasDisease && !flock[i].hasDisease && (!this.isImmune || flock[i].dead)) {
+                    if(flock[i].immunity <= 0) {
+                        if(flock[i].healthStatus == PARANOID)
                             new Sound("paranoiaEnded.wav");
-                        flock.get(i).healthStatus = INFECTED; //!Infection
+                        flock[i].healthStatus = INFECTED; //!Infection
                         new Sound("newpatient.wav");
-                        flock.get(i).hasDisease = true;
+                        flock[i].hasDisease = true;
                         if(this.isParamedic) {
                             this.isParamedic = false;
                             new Sound("bell.wav");
                         }
                     }
                     else {//!Immunity loss
-                        if((int)(Math.random()*40000)==0 && !this.diagnosed && !this.dead) { //prevent double diagnoses while diagnosed
+                        if((int)((UnityEngine.Random.Range(0,1)*40000)==0 && !this.diagnosed && !this.dead) { //prevent double diagnoses while diagnosed
                             this.healthStatus = DIAGNOSED; //!Diagnosis
                             this.diagnosed = true;
                             new Sound("diagnosis.wav");
                         }
-                        flock.get(i).immunity -= (1/dist)*((BoidRunner.totalInfected > 35) ? 1 : ((BoidRunner.totalInfected > 11) 
+                        flock[i].immunity -= (1/dist)*((BoidRunner.totalInfected > 35) ? 1 : ((BoidRunner.totalInfected > 11) 
                                                  ? 2.5 : ((BoidRunner.totalInfected < 5) ? (BoidRunner.totalInfected < 2 ? 5: 4) : 3.5)));
                     }
-                } else if(!this.hasDisease && !flock.get(i).hasDisease && flock.get(i).immunity < flock.get(i).immunityCap && !flock.get(i).isImmune) {
-                    flock.get(i).immunity += (Math.random()*5+1)/((BoidRunner.totalInfected > 35) ? 10000 : 100);
-                    if(flock.get(i).immunity > flock.get(i).immunityCap)
-                       flock.get(i).immunity = flock.get(i).immunityCap; //!Immunity gain
-                } if(flock.get(i).isParamedic && this.diagnosed && dist < 5) {
+                } else if(!this.hasDisease && !flock[i].hasDisease && flock[i].immunity < flock[i].immunityCap && !flock[i].isImmune) {
+                    flock[i].immunity += ((UnityEngine.Random.Range(0,1)*5+1)/((BoidRunner.totalInfected > 35) ? 10000 : 100);
+                    if(flock[i].immunity > flock[i].immunityCap)
+                       flock[i].immunity = flock[i].immunityCap; //!Immunity gain
+                } if(flock[i].isParamedic && this.diagnosed && dist < 5) {
                     healTime--;
                     if(healTime <= 0) {
                         this.hasDisease = false; //!Paramedic Curing
@@ -196,9 +201,9 @@ public class Boid {
                         siren = null;
                         new Sound("treatment.wav");
                         this.healthStatus = RECOVERED;
-                        this.immunity = this.immunityCap * (Math.random()*50+100);
+                        this.immunity = this.immunityCap * ((UnityEngine.Random.Range(0,1)*50+100);
                         this.immunityCap = this.immunity;
-                        this.immunityLife = initialLifeSpan*(6*(Math.random()*0.8+0.5));
+                        this.immunityLife = initialLifeSpan*(6*((UnityEngine.Random.Range(0,1)*0.8+0.5));
                         lockedOn = false;
                         patient = null;
                         Boid.travelTime = 0;
@@ -248,7 +253,7 @@ public class Boid {
         int perceptionRadius = (int)separationPerceptionRadius;
         int total = 0;
         Vector steering = new Vector(0,0);
-        boolean emergencyServicePresent = false;
+        bool emergencyServicePresent = false;
         for(Boid boid : flock) {
             double dist = distance(this.position.xvalue, this.position.yvalue, boid.position.xvalue, boid.position.yvalue);
             if(boid != this && dist < perceptionRadius && !(this.diagnosed && boid.isParamedic)) {
@@ -257,7 +262,7 @@ public class Boid {
                 if(dist == 0.0) dist += 0.001;
                 difference.divide(dist*dist);
                 if((boid.dead || (boid.diagnosed && !this.isParamedic) || this.healthStatus == PARANOID || (boid.isParamedic && lockedOn)) && !this.isParamedic){
-                    difference.multiply(Math.random()*5+((boid.isParamedic && lockedOn)?80:20));
+                    difference.multiply((UnityEngine.Random.Range(0,1)*5+((boid.isParamedic && lockedOn)?80:20));
                 } if(this.isParamedic && boid.isParamedic && lockedOn 
                         && distance(this.position.xvalue, this.position.yvalue, patient.position.xvalue, boid.position.yvalue) > 150 && dist < 5) {
                     difference.multiply(15);
@@ -280,7 +285,7 @@ public class Boid {
     }
 
     void flock(ArrayList<Boid> flock) {
-        boolean emergencyWork = false;
+        bool emergencyWork = false;
         if(this.isParamedic && lockedOn)
             emergencyWork = true;
         this.acceleration.set(0, 0);
@@ -299,7 +304,7 @@ public class Boid {
     void update() {
         if(!this.dead) {
             if(this.isParamedic && lockedOn && patientDistance >= 10) {
-                if((int)(Math.random()*BoidRunner.paramedicCount) == 0) //since travelTime is static and you only want to increase it by
+                if((int)((UnityEngine.Random.Range(0,1)*BoidRunner.paramedicCount) == 0) //since travelTime is static and you only want to increase it by
                      Boid.travelTime++;       //about one every cycle, have it be a 1/paramedicCount chance for the traveltime to increase
                 Vector emergencyVelocity = this.velocity.setMagnitude(
                     this.velocity.getMagnitude()*2+((Boid.travelTime > 20)?Boid.travelTime/200:1));
@@ -377,7 +382,7 @@ public class Boid {
     static double maxForce = 0.2;
     static double maxSpeed = 2;
 
-    static final double forceChangeValue = 1;
+    static readonly double forceChangeValue = 1;
 
     static double alignmentPerceptionRadius = 50;
     static double cohesionPerceptionRadius = 100;

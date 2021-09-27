@@ -1,9 +1,10 @@
-package app;
+using System;
 
-import javax.swing.*;
-import java.awt.*;
 public class BoidDriver {
     public static void main(String[] args) {
+
+        //todo: Make factory builder or something for Unity
+        /*
         JFrame frame = new JFrame("Flocking Simulation");
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLocation(0, 0);
@@ -14,5 +15,6 @@ public class BoidDriver {
         frame.pack();
         frame.setVisible(true);
         simulation.run();
+        */
     }
 }
