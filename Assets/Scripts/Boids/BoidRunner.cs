@@ -59,72 +59,72 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
         while(true) {
             int toAdd = 0;
             totalInfected = 0; healthyCount = 0; recoveryCount = 0; visiblyDead = 0; diagnosedCount = 0; paramedicCount = 0; paranoidCount = 0;
-            for(int i = 0; i < flock.size(); i++){
-                flock[i].edges();
-                flock[i].flock(flock);
-                flock[i].update();
-                if(flock[i].isParamedic)
+            for(int i = 0; i < flock.Count; i++){
+                flock[i].Edges();
+                flock[i].Flock(flock);
+                flock[i].Update();
+                if(flock[i]._isParamedic)
                     paramedicCount++;
-                else if(flock[i].healthStatus == Boid.HEALTHY)
+                else if(flock[i]._healthStatus == Boid._healthy)
                     healthyCount++;
-                else if(flock[i].healthStatus == Boid.INFECTED)
+                else if(flock[i]._healthStatus == Boid._infected)
                     totalInfected++;
-                else if(flock[i].healthStatus == Boid.RECOVERED)
+                else if(flock[i]._healthStatus == Boid._recovered)
                     recoveryCount++;
-                else if(flock[i].healthStatus == flock[i].DIAGNOSED)
+                else if(flock[i]._healthStatus == flock[i].DIAGNOSED)
                     diagnosedCount++;
-                else if(flock[i].healthStatus == Boid.PARANOID)
+                else if(flock[i]._healthStatus == Boid._paranoid)
                     paranoidCount++;
                 else
                     visiblyDead++;
-                if(flock[i].dead && ((int)((UnityEngine.Random.Range(0,1)*(totalInfected*600+((totalInfected == 0)?1:0))) <= visiblyDead)) {
-                    flock.remove(i);
+                if(flock[i].IsDead && (((UnityEngine.Random.Range(0,1)*(totalInfected*600+((totalInfected == 0)?1:0))) <= visiblyDead))) {
+                    flock.RemoveAt(i);
                     i--;
                     //toAdd++;
-                } else if(flock[i].isParamedic && totalInfected <= flock.size()*0.25 && (int)((UnityEngine.Random.Range(0,1)*10000*(flock.size()-totalInfected)) == 0) {
-                    flock.remove(i);
+                } else if(flock[i]._isParamedic && totalInfected <= flock.Count*0.25 && ((UnityEngine.Random.Range(0,1)*10000*(flock.Count-totalInfected)) == 0)) {
+                    flock.RemoveAt(i);
                     i--;
                     //toAdd++;
                     new Sound("bell.wav");
                 }
-                else if(flock[i].isParamedic && Boid.lockedOn) {
-                    flock[i].sirenCount++;
-                    if(flock[i].sirenCount % 3 == 0) {
-                        flock[i].sirens++;
-                        if(flock[i].sirens==0)
-                            flock[i].PARAMEDIC = Color.BLUE;
-                        else if(flock[i].sirens==1)
-                            flock[i].PARAMEDIC = Color.WHITE;
-                        else if(flock[i].sirens == 2)
-                            flock[i].PARAMEDIC = Color.RED;
-                        flock[i].healthStatus = flock[i].PARAMEDIC;
-                    } if(flock[i].sirens > 2) flock[i].sirens = -1;
-                } else if(flock[i].isParamedic && flock[i].PARAMEDIC != Color.BLUE) {
-                    flock[i].PARAMEDIC = Color.BLUE;
-                    flock[i].healthStatus = flock[i].PARAMEDIC;
+                else if(flock[i]._isParamedic && Boid._lockedOn) {
+                    flock[i]._sirenCount++;
+                    if(flock[i]._sirenCount % 3 == 0) {
+                        flock[i]._sirens++;
+                        if(flock[i]._sirens==0)
+                            flock[i]._paramedic = Color.BLUE;
+                        else if(flock[i]._sirens==1)
+                            flock[i]._paramedic = Color.WHITE;
+                        else if(flock[i]._sirens == 2)
+                            flock[i]._paramedic = Color.RED;
+                        flock[i]._healthStatus = flock[i]._paramedic;
+                    } if(flock[i]._sirens > 2) flock[i]._sirens = -1;
+                } else if(flock[i]._isParamedic && flock[i]._paramedic != Color.BLUE) {
+                    flock[i]._paramedic = Color.BLUE;
+                    flock[i]._healthStatus = flock[i]._paramedic;
                 }
                 if((int)((UnityEngine.Random.Range(0,1)*healthyCount*2000+((healthyCount == 0)?1:0)) == 0 && 
-                        !flock[i].hasDisease && diagnosedCount >= 3 && 
-                        flock[i].healthStatus != Boid.PARANOID && paranoidCount <= 15) {
-                    flock[i].healthStatus = Boid.PARANOID;
+                        !flock[i]._hasDisease && diagnosedCount >= 3 && 
+                        flock[i]._healthStatus != Boid._paranoid && paranoidCount <= 15) {
+                    flock[i]._healthStatus = Boid._paranoid;
                     new Sound("paranoia.wav");
-                } if(recoveryCount >= 800 && flock[i].healthStatus == Boid.PARANOID &&
+                } if(recoveryCount >= 800 && flock[i]._healthStatus == Boid._paranoid &&
                         (int)((UnityEngine.Random.Range(0,1)*totalInfected*200+((totalInfected == 0)?1:0)) == 0 ) {
-                    flock[i].healthStatus = Boid.HEALTHY;
+                    flock[i]._healthStatus = Boid._healthy;
                     new Sound("paranoiaEnded.wav");
                 }
             }
             if(clearGrid) {
-                for(int i = 0; i < flock.size(); i++) {
-                    flock.remove(i);
+                for(int i = 0; i < flock.Count; i++) {
+                    flock.RemoveAt(i);
                     i--;
                 }
                 clearGrid = false;
             }
-            if(addedBoids.size() != 0) {
-                for(int i = 0; i < addedBoids.size(); i++) {
+            if(addedBoids.Count != 0) {
+                for(int i = 0; i < addedBoids.Count; i++) {
                     flock.add(addedBoids[i]);
-                    addedBoids.remove(i);
+                    addedBoids.RemoveAt(i);
                     i--;
                 }
             }
@@ -132,11 +132,11 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
                 flock.add(new Boid(true));
                 new Sound("ambulance.wav");
             }
-            if(!intensityPlayed && (flock.size()+1)%100 == 0) 
+            if(!intensityPlayed && (flock.Count+1)%100 == 0) 
                 intensityPlayed = true;
             if(totalInfected == 0)
                 flock.add(new Boid((int)((UnityEngine.Random.Range(0,1)*WIDTH), (int)((UnityEngine.Random.Range(0,1)*HEIGHT), true));
-            else if(totalInfected >= (int)(flock.size()*0.8) && !intensityPlayed) {
+            else if(totalInfected >= (int)(flock.Count*0.8) && !intensityPlayed) {
                 new Sound("intensity.wav");
                 intensityPlayed = !intensityPlayed;
             }
@@ -150,7 +150,7 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
             updateValues();
             for(int i = 0; i < toAdd; i++)
                 flock.add(new Boid());
-            int more = (int)((UnityEngine.Random.Range(0,1)*((flock.size()>=900) ? 1000 : 500));
+            int more = (int)((UnityEngine.Random.Range(0,1)*((flock.Count>=900) ? 1000 : 500));
             if(more == 0)
                 flock.add(new Boid());
             if(addedNewBoid) {
@@ -186,7 +186,7 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
         this.setLayout(new FlowLayout());
         this.add(recoveredDisplay);
         recoveredDisplay.setFont(new Font("Courier New", Font.PLAIN, 20));
-        recoveredDisplay.setForeground(Boid.RECOVERED);
+        recoveredDisplay.setForeground(Boid._recovered);
         recoveredDisplay.setVisible(true);
         recoveredDisplay.setLocation((int)WIDTH/2+400, 200);
         //Death
@@ -214,7 +214,7 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
     }
 
     static void updateHealthy() {
-        healthyCount = flock.size()-totalInfected-deathCount;
+        healthyCount = flock.Count-totalInfected-deathCount;
         healthyDisplay.setText("Healthy: " + healthyCount);
     }
 
@@ -248,7 +248,7 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
     }
 
     static void updateAlive() {
-        aliveCount = flock.size()-deathCount;
+        aliveCount = flock.Count-deathCount;
         aliveDisplay.setText(" Alive: " + aliveCount);
     }
 
@@ -260,14 +260,14 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
 
     public void keyReleased( KeyEvent event ) {}
 
-    static ArrayList<Boid> addedBoids = new ArrayList<>();
+    static List<Boid> addedBoids = new List<>();
 
     public void keyPressed( KeyEvent event ) {
         //General
         if(event.getKeyCode() == KeyEvent.VK_P)
-            Boid.incrementSeparationMaxForce();
+            Boid.IncrementSeparationMaxForce();
         else if(event.getKeyCode() == KeyEvent.VK_SEMICOLON)
-            Boid.decrementSeparationMaxForce();
+            Boid.DecrementSeparationMaxForce();
         //Toggles
         else if(event.getKeyCode() == KeyEvent.VK_Q)
             toggleCounts(true);
@@ -322,18 +322,18 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
         else if(event.getKeyCode() == KeyEvent.VK_T) { //Add recovered
             new Sound("recovery.wav");
             Boid recoveredBoid = new Boid((int)((int)(((UnityEngine.Random.Range(0,1))*WIDTH)),(int)(((UnityEngine.Random.Range(0,1))*HEIGHT), false);
-            recoveredBoid.isImmune = true;
-            recoveredBoid.healthStatus = Boid.RECOVERED;
-            recoveredBoid.immunity = recoveredBoid.immunityCap * ((UnityEngine.Random.Range(0,1)*50+100);
-            recoveredBoid.immunityCap = recoveredBoid.immunity;
-            recoveredBoid.immunityLife = recoveredBoid.initialLifeSpan*(6*((UnityEngine.Random.Range(0,1)*0.8+0.5));
+            recoveredBoid._isImmune = true;
+            recoveredBoid._healthStatus = Boid._recovered;
+            recoveredBoid._immunity = recoveredBoid._immunityCap * ((UnityEngine.Random.Range(0,1)*50+100);
+            recoveredBoid._immunityCap = recoveredBoid._immunity;
+            recoveredBoid._immunityLife = recoveredBoid._initialLifeSpan*(6*((UnityEngine.Random.Range(0,1)*0.8+0.5));
             addedBoids.add(recoveredBoid);
         }
         else if(event.getKeyCode() == KeyEvent.VK_G) { //Add dead
             new Sound("recovery.wav");
             Boid deadBoid = new Boid((int)((int)(((UnityEngine.Random.Range(0,1))*WIDTH)),(int)(((UnityEngine.Random.Range(0,1))*HEIGHT), false);
-            deadBoid.dead = true;
-            deadBoid.healthStatus = Boid.DEAD;
+            deadBoid.IsDead = true;
+            deadBoid._healthStatus = Boid.DEAD;
             addedBoids.add(deadBoid);
         }
         else if(event.getKeyCode() == KeyEvent.VK_Y) { //Add paramedic
@@ -344,14 +344,14 @@ public class BoidRunner{ //extends JPanel implements KeyListener, MouseListener,
             new Sound("recovery.wav");
             new Sound("diagnosis.wav");
             Boid diagnosedBoid = new Boid((int)(((UnityEngine.Random.Range(0,1))*WIDTH),(int)(((UnityEngine.Random.Range(0,1))*HEIGHT), true);
-            diagnosedBoid.diagnosed = true;
-            diagnosedBoid.healthStatus = diagnosedBoid.DIAGNOSED;
+            diagnosedBoid.IsDiagnosed = true;
+            diagnosedBoid._healthStatus = diagnosedBoid.DIAGNOSED;
             addedBoids.add(diagnosedBoid);
         }
         else if(event.getKeyCode() == KeyEvent.VK_U) { //Add paranoid
             new Sound("recovery.wav");
             Boid paranoidBoid = new Boid((int)(((UnityEngine.Random.Range(0,1))*WIDTH),(int)(((UnityEngine.Random.Range(0,1))*HEIGHT), false);
-            paranoidBoid.healthStatus = Boid.PARANOID;
+            paranoidBoid._healthStatus = Boid._paranoid;
             addedBoids.add(paranoidBoid);
         }
 

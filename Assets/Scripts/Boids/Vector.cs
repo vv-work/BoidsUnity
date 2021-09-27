@@ -11,6 +11,7 @@ public class Vector {
         this.yvalue = yvalue;
     }
 
+
     public void set(float xvalue, float yvalue) {
         this.xvalue = xvalue;
         this.yvalue = yvalue;
