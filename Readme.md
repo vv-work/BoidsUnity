@@ -2,7 +2,7 @@
 
 [Original on Java](https://github.com/IvanHornung/Pandemic-Simulator)
 
-![Main Gif](res\PandemicSim.gif)
+![Main Gif](res/PandemicSim.gif)
 
 My version made with unity 
 
