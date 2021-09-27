@@ -54,13 +54,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Boids\Sound.cs" />
+    <Compile Include="Assets\Scripts\Boids\Vector.cs" />
+    <Compile Include="Assets\Scripts\Boids\Boid.cs" />
+    <Compile Include="Assets\Scripts\Boids\BoidRunner.cs" />
+    <Compile Include="Assets\Scripts\Boids\BoidDriver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Boids\Boids.Logic.asmdef" />
-    <None Include="Assets\Scripts\Boids\Boid.java" />
-    <None Include="Assets\Scripts\Boids\BoidDriver.java" />
-    <None Include="Assets\Scripts\Boids\BoidRunner.java" />
-    <None Include="Assets\Scripts\Boids\Vector.java" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

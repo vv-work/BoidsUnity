@@ -1,11 +1,13 @@
-package app;
+using System;
+using UnityEngine;
+
 public class Vector {
     public double xvalue;
     public double yvalue;
     
     public Vector() {
-        this.xvalue = Math.random()-0.5;
-        this.yvalue = Math.random()-0.5;
+        this.xvalue =0;
+        this.yvalue =0;
     }
     
     public Vector(double xvalue, double yvalue) {
@@ -25,11 +27,11 @@ public class Vector {
     public void setYValue(double newValue) { this.yvalue = newValue; }
 
     public double getMagnitude() {
-        return Math.sqrt(Math.pow(this.xvalue, 2) + Math.pow(this.yvalue, 2));
+        return Math.Sqrt(Math.Pow(this.xvalue, 2) + Math.Pow(this.yvalue, 2));
     }
 
     public void limit(double maxForce) {
-        double magnitude = Math.sqrt(Math.pow(this.xvalue, 2) + Math.pow(this.yvalue, 2));
+        double magnitude = Math.Sqrt(Math.Pow(this.xvalue, 2) + Math.Pow(this.yvalue, 2));
         double multiplier;
         if(magnitude > maxForce) 
             multiplier = maxForce / magnitude;
@@ -41,7 +43,7 @@ public class Vector {
     }
 
     public Vector setMagnitude(double newMagnitude) {
-        double currentMagnitude = Math.sqrt(Math.pow(this.xvalue, 2) + Math.pow(this.yvalue, 2));
+        double currentMagnitude = Math.Sqrt(Math.Pow(this.xvalue, 2) + Math.Pow(this.yvalue, 2));
         this.xvalue *= (newMagnitude/currentMagnitude);
         this.yvalue *= (newMagnitude/currentMagnitude);
         return this;
@@ -68,7 +70,7 @@ public class Vector {
     }
 
     double dir() {
-        return Math.atan2(this.yvalue, this.xvalue);
+        return Math.Atan2(this.yvalue, this.xvalue);
     }
 
     void setValues(double xvalue, double yvalue) {
