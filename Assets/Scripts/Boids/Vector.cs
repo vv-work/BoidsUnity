@@ -2,48 +2,44 @@ using System;
 using UnityEngine;
 
 public class Vector {
-    public double xvalue;
-    public double yvalue;
+    public float xvalue;
+    public float yvalue;
     
-    public Vector() {
-        this.xvalue =0;
-        this.yvalue =0;
-    }
     
-    public Vector(double xvalue, double yvalue) {
+    public Vector(float xvalue, float yvalue) {
         this.xvalue = xvalue;
         this.yvalue = yvalue;
     }
 
-    public void set(double xvalue, double yvalue) {
+    public void set(float xvalue, float yvalue) {
         this.xvalue = xvalue;
         this.yvalue = yvalue;
     }
     
-    public double getXValue() { return this.xvalue; }
-    public double getYValue() { return this.yvalue; }
+    public float getXValue() { return this.xvalue; }
+    public float getYValue() { return this.yvalue; }
         
-    public void setXValue(double newValue) { this.xvalue = newValue; }
-    public void setYValue(double newValue) { this.yvalue = newValue; }
+    public void setXValue(float newValue) { this.xvalue = newValue; }
+    public void setYValue(float newValue) { this.yvalue = newValue; }
 
-    public double getMagnitude() {
-        return Math.Sqrt(Math.Pow(this.xvalue, 2) + Math.Pow(this.yvalue, 2));
+    public float getMagnitude() {
+        return Mathf.Sqrt(Mathf.Pow(this.xvalue, 2) + Mathf.Pow(this.yvalue, 2));
     }
 
-    public void limit(double maxForce) {
-        double magnitude = Math.Sqrt(Math.Pow(this.xvalue, 2) + Math.Pow(this.yvalue, 2));
-        double multiplier;
+    public void limit(float maxForce) {
+        float magnitude = Mathf.Sqrt(Mathf.Pow(this.xvalue, 2) + Mathf.Pow(this.yvalue, 2));
+        float multiplier;
         if(magnitude > maxForce) 
             multiplier = maxForce / magnitude;
         else
-            multiplier = 1.0;
+            multiplier = 1f;
         
         this.xvalue *= multiplier;
         this.yvalue *= multiplier;
     }
 
-    public Vector setMagnitude(double newMagnitude) {
-        double currentMagnitude = Math.Sqrt(Math.Pow(this.xvalue, 2) + Math.Pow(this.yvalue, 2));
+    public Vector setMagnitude(float newMagnitude) {
+        float currentMagnitude = Mathf.Sqrt(Mathf.Pow(this.xvalue, 2) + Mathf.Pow(this.yvalue, 2));
         this.xvalue *= (newMagnitude/currentMagnitude);
         this.yvalue *= (newMagnitude/currentMagnitude);
         return this;
@@ -59,26 +55,26 @@ public class Vector {
         this.yvalue -= parent.getYValue();
     }
 
-    void multiply(double multiplier) {
+    void multiply(float multiplier) {
         this.xvalue *= multiplier;
         this.yvalue *= multiplier;
     }
 
-    void divide(double denominator) {
+    void divide(float denominator) {
         this.xvalue /= denominator;
         this.yvalue /= denominator;
     }
 
-    double dir() {
-        return Math.Atan2(this.yvalue, this.xvalue);
+    float dir() {
+        return Mathf.Atan2(this.yvalue, this.xvalue);
     }
 
-    void setValues(double xvalue, double yvalue) {
+    void setValues(float xvalue, float yvalue) {
         this.xvalue = xvalue;
         this.yvalue = yvalue;
     }
 
-    double movement() {
+    float movement() {
         return this.xvalue+this.yvalue;
     }
 }

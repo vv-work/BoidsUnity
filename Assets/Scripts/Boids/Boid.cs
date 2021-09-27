@@ -27,21 +27,21 @@ public class Boid {
     static bool hasInfected = false;
     bool hasDisease = false;
     Color healthStatus = HEALTHY;
-    double immunity = ((UnityEngine.Random.Range(0,1)*10+5));
-    private double immunityCap ;//= immunity;
-    static double lifeSpan = (UnityEngine.Random.Range(0,1)*300+500)*2;
-    double initialLifeSpan = lifeSpan;
+    float immunity = ((UnityEngine.Random.Range(0,1)*10+5));
+    private float immunityCap ;//= immunity;
+    static float lifeSpan = (UnityEngine.Random.Range(0,1)*300+500)*2;
+    float initialLifeSpan = lifeSpan;
     bool dead = false, diagnosed = false;
-    double deathAngle = 0;
+    float deathAngle = 0;
     static int mortalityRate = 14;
     static Color RECOVERED = new Color(101,194,255), DEAD = new Color(154, 74, 178), 
                 HEALTHY = Color.white, INFECTED = Color.red,  PARANOID = new Color(174,243,177);
     Color PARAMEDIC = Color.blue, DIAGNOSED = new Color(134, 0 , 0);
-    double immunityLife;
+    float immunityLife;
     bool isImmune = false, isParamedic = false;
     static Boid patient = null; static bool lockedOn = false;
 
-    private double healTime;//= this.initialImmunity;
+    private float healTime;//= this.initialImmunity;
 
     int sirens = 0, sirenCount = 0;
     static int travelTime = 0;
@@ -55,10 +55,10 @@ public class Boid {
             hasDisease = true;
             lifeSpan = 2000;
         }
-        this.position = new Vector((double)((UnityEngine.Random.Range(0,1)*BoidRunner.WIDTH),(double)((UnityEngine.Random.Range(0,1)*BoidRunner.HEIGHT));
-        double angle = (UnityEngine.Random.Range(0,1)*360;
-        double radius = (UnityEngine.Random.Range(0,1)*2+2; //2-4
-        this.velocity = new Vector((radius * Math.cos(angle)), (radius * Math.sin(angle)));
+        this.position = new Vector(((UnityEngine.Random.Range(0,1)*BoidRunner.WIDTH),(float)((UnityEngine.Random.Range(0,1)*BoidRunner.HEIGHT));
+        float angle = (UnityEngine.Random.Range(0,1)*360;
+        float radius = (UnityEngine.Random.Range(0,1)*2+2; //2-4
+        this.velocity = new Vector((radius * Mathf.cos(angle)), (radius * Mathf.sin(angle)));
         this.acceleration = new Vector(0,0);
         if((int)((UnityEngine.Random.Range(0,1)*500)==0 && !hasDisease) {
             this.isParamedic = true;
@@ -74,18 +74,18 @@ public class Boid {
             hasDisease = true;
         }
         this.position = new Vector(mouseXPosition, mouseYPosition);
-        double angle = (UnityEngine.Random.Range(0,1)*360;
-        double radius = (UnityEngine.Random.Range(0,1)*2+2;
-        this.velocity = new Vector((radius * Math.cos(angle)), (radius * Math.sin(angle)));
+        float angle = (UnityEngine.Random.Range(0,1)*360;
+        float radius = (UnityEngine.Random.Range(0,1)*2+2;
+        this.velocity = new Vector((radius * Mathf.cos(angle)), (radius * Mathf.sin(angle)));
         this.acceleration = new Vector(0,0);
         if(BoidRunner.totalInfected == 1)
             this.lifeSpan = 12000;
     }
     public Boid(bool addedParamedic) {
         this.position = new Vector((int)(BoidRunner.WIDTH), (int)(BoidRunner.HEIGHT));
-        double angle = (UnityEngine.Random.Range(0,1)*360;
-        double radius = (UnityEngine.Random.Range(0,1)*2+2;
-        this.velocity = new Vector((radius * Math.cos(angle)), (radius * Math.sin(angle)));
+        float angle = (UnityEngine.Random.Range(0,1)*360;
+        float radius = (UnityEngine.Random.Range(0,1)*2+2;
+        this.velocity = new Vector((radius * Mathf.cos(angle)), (radius * Mathf.sin(angle)));
         this.acceleration = new Vector(0,0);
         if(addedParamedic) {
             this.isParamedic = true;
@@ -159,7 +159,7 @@ public class Boid {
                     }
                 break;
             }
-            double dist = distance(this.position.xvalue, this.position.yvalue, flock[i].position.xvalue, flock[i].position.yvalue);
+            float dist = distance(this.position.xvalue, this.position.yvalue, flock[i].position.xvalue, flock[i].position.yvalue);
             if(flock[i] != this && dist < perceptionRadius) {
                 if(!(this.diagnosed && flock[i].isParamedic)) {
                     steering.add(flock[i].velocity);
@@ -179,7 +179,7 @@ public class Boid {
                         }
                     }
                     else {//!Immunity loss
-                        if((int)((UnityEngine.Random.Range(0,1)*40000)==0 && !this.diagnosed && !this.dead) { //prevent double diagnoses while diagnosed
+                        if((int)((UnityEngine.Random.Range(0,1)*40000)==0 && !this.diagnosed && !this.dead) { //prevent float diagnoses while diagnosed
                             this.healthStatus = DIAGNOSED; //!Diagnosis
                             this.diagnosed = true;
                             new Sound("diagnosis.wav");
@@ -214,7 +214,7 @@ public class Boid {
         }
         if(total > 0) {
             if(total > 0)
-                steering.divide((double)total);
+                steering.divide((float)total);
             steering.setMagnitude(maxSpeed);
             steering.subtract(this.velocity);
             steering.limit(maxForce);
@@ -228,7 +228,7 @@ public class Boid {
         Vector steering = new Vector(0,0);
         if(!this.isParamedic || (this.isParamedic && !lockedOn))
             for(Boid boid : flock) {
-                double dist = distance(this.position.xvalue, this.position.yvalue, boid.position.xvalue, boid.position.yvalue);
+                float dist = distance(this.position.xvalue, this.position.yvalue, boid.position.xvalue, boid.position.yvalue);
                 if(boid != this && dist < perceptionRadius) {
                     steering.add(boid.position);
                     total++;
@@ -236,7 +236,7 @@ public class Boid {
             }
         if((total > 0 || (this.isParamedic && lockedOn && patient.velocity.movement() != 0))) {
             if(total > 0)
-                steering.divide((double)total);
+                steering.divide((float)total);
             else {
                 patientDistance = distance(this.position.xvalue, this.position.yvalue, patient.position.xvalue, patient.position.yvalue);
                 steering.add(patient.position);
@@ -255,7 +255,7 @@ public class Boid {
         Vector steering = new Vector(0,0);
         bool emergencyServicePresent = false;
         for(Boid boid : flock) {
-            double dist = distance(this.position.xvalue, this.position.yvalue, boid.position.xvalue, boid.position.yvalue);
+            float dist = distance(this.position.xvalue, this.position.yvalue, boid.position.xvalue, boid.position.yvalue);
             if(boid != this && dist < perceptionRadius && !(this.diagnosed && boid.isParamedic)) {
                 Vector difference = new Vector(this.position.xvalue, this.position.yvalue);
                 difference.subtract(boid.position);
@@ -274,7 +274,7 @@ public class Boid {
             }
         }
         if(total > 0) {
-            steering.divide((double)total);
+            steering.divide((float)total);
             steering.setMagnitude(((total > 40 || emergencyServicePresent) ? separationMaxSpeed
                     *((emergencyServicePresent)?6:2) : ((this.healthStatus == PARANOID)? separationMaxSpeed*5:separationMaxSpeed)));
             steering.subtract(this.velocity);
@@ -299,7 +299,7 @@ public class Boid {
         this.acceleration.add(cohesion);
     }
 
-    double patientDistance;
+    float patientDistance;
 
     void update() {
         if(!this.dead) {
@@ -316,7 +316,7 @@ public class Boid {
         this.velocity.add(this.acceleration);
         this.velocity.limit(maxSpeed);
         if(this.dead && deathAngle == 0) {
-            deathAngle = this.velocity.dir() + Math.PI/2;
+            deathAngle = this.velocity.dir() + Mathf.PI/2;
         }
         if(patient == this && lockedOn) {
             patientBlinkCount++;
@@ -356,15 +356,15 @@ public class Boid {
             this.position.yvalue = BoidRunner.HEIGHT;
     }
 
-    double distance(double x1, double y1, double x2, double y2) {
-        return Math.Sqrt(Math.Pow((x2-x1), 2) + Math.Pow((y2-y1), 2));
+    float distance(float x1, float y1, float x2, float y2) {
+        return Mathf.Sqrt(Mathf.Pow((x2-x1), 2) + Mathf.Pow((y2-y1), 2));
     }
 
     public void draw(Graphics2D g) {
         AffineTransform save = g.getTransform();
         g.translate((int)this.position.xvalue, (int)this.position.yvalue);
         if(!this.dead)
-            g.rotate(this.velocity.dir() + Math.PI/2);
+            g.rotate(this.velocity.dir() + Mathf.PI/2);
         else
             g.rotate(deathAngle);
         g.setColor(healthStatus);
@@ -379,16 +379,16 @@ public class Boid {
         } catch(InterruptedException e) {}
     }
 
-    static double maxForce = 0.2;
-    static double maxSpeed = 2;
+    static float maxForce = 0.2;
+    static float maxSpeed = 2;
 
-    static readonly double forceChangeValue = 1;
+    static readonly float forceChangeValue = 1;
 
-    static double alignmentPerceptionRadius = 50;
-    static double cohesionPerceptionRadius = 100;
-    static double separationPerceptionRadius = 100;
-    static double separationMaxSpeed = maxSpeed;
-    static double separationMaxForce = maxForce;
+    static float alignmentPerceptionRadius = 50;
+    static float cohesionPerceptionRadius = 100;
+    static float separationPerceptionRadius = 100;
+    static float separationMaxSpeed = maxSpeed;
+    static float separationMaxForce = maxForce;
     
     static void incrementSeparationMaxForce() { Boid.separationMaxForce += forceChangeValue; }
     static void decrementSeparationMaxForce() { Boid.separationMaxForce -= forceChangeValue; }
